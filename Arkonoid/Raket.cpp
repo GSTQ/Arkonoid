@@ -50,7 +50,8 @@ Raket::Raket(GLFWwindow* window)
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices)* verticesCount, _vertices, GL_STATIC_DRAW);
+    cout << "Raket vertices size=" << sizeof(_vertices) * verticesCount << endl;
+    glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices) * verticesCount, _vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);

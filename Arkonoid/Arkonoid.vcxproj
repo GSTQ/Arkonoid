@@ -120,10 +120,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Raket.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Raket.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragment.glsl" />
