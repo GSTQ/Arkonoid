@@ -17,25 +17,30 @@ Raket::Raket()
 
 }
 
+float Raket::GetX(int cell)
+{
+    int maxCell = 60;
+    return -1 + cell * 2.0f / maxCell;
+}
+
+float Raket::GetY(int cell)
+{
+    int maxCell = 80;
+    return -1 + cell * 2.0f / maxCell;
+}
+
+
 Raket::Raket(GLFWwindow* window)
 {
     int verticesCount = 12;
 
     _vertices = new GLfloat[verticesCount]{
         // Positions
-        0.15f,   0.025f, 0.0f,
-        0.15f,  -0.025f, 0.0f,
-        -0.15f, -0.025f, 0.0f,
-        -0.15f,  0.025f, 0.0f,
+        GetX(35),  GetY(4), 0.0f, //1
+        GetX(35),  GetY(2),  0.0f, //2
+        GetX(25),  GetY(2),  0.0f, //3
+        GetX(25),  GetY(4), 0.0f, //0
     };
-
-    //_vertices = new GLfloat[verticesCount]{
-    //    // Positions
-    //    0.5f,   0.5f, 0.0f,
-    //    0.5f,  -0.5f, 0.0f,
-    //    -0.5f, -0.5f, 0.0f,
-    //    -0.5f,  0.5f, 0.0f,
-    //};
 
     GLuint indices[] = {
         0, 1, 3, // First Triangle
@@ -61,7 +66,7 @@ Raket::Raket(GLFWwindow* window)
     glBindVertexArray(0); // Unbind VAO
 
     _shader = Shader("vertex.glsl", "fragment.glsl");
-    _position = glm::vec3(0.0f, -0.95f, 0.0f);
+    _position = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 void Raket::Draw()
@@ -91,16 +96,16 @@ void Raket::Destroy()
 
 void Raket::MoveLeft()
 {
-    if (_position.x > -0.8)
+    if (_position.x - 7 * 2.0f / 80.0f > GetX(2))
     {
-        _position.x -= 0.05;
+        _position.x -= 2.0f / 80.0f;
     }
 }
 
 void Raket::MoveRight()
 {
-    if (_position.x < 0.8)
+    if (_position.x  + 7 * 2.0f / 80.0f < GetX(58))
     {
-        _position.x += 0.05;
+        _position.x += 2.0f / 80.0f;
     }
 }

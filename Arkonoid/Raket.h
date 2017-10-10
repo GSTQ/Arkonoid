@@ -16,6 +16,8 @@ class Raket
         void Draw();
         void Destroy();
     private:
+        float GetX(int cell);
+        float GetY(int cell);
         GLuint VBO, VAO, EBO;
         GLfloat* _vertices;
         Shader _shader;
