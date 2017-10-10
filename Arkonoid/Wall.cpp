@@ -26,8 +26,6 @@ float GetX(int cell)
 float GetY(int cell)
 {
     int maxCell = 80;
-
-
     return -1 + cell * 2.0f / maxCell;
 }
 
@@ -35,16 +33,16 @@ Wall::Wall(GLFWwindow* window)
 {
     float vertices[] = {
         // Positions
-        GetX(5), GetY(80), 0.0f, //0
-        GetX(5), GetY(0), 0.0f, //1
+        GetX(2), GetY(80), 0.0f, //0
+        GetX(2), GetY(0), 0.0f, //1
         GetX(0), GetY(0), 0.0f, //2
         GetX(0), GetY(80), 0.0f, //3
-        GetX(0), GetY(75), 0.0f, //4
-        GetX(60), GetY(75), 0.0f, //5
+        GetX(0), GetY(78), 0.0f, //4
+        GetX(60), GetY(78), 0.0f, //5
         GetX(60), GetY(80), 0.0f, //6
         GetX(60), GetY(0), 0.0f, //7
-        GetX(55), GetY(0), 0.0f, //8
-        GetX(55), GetY(80), 0.0f, //9
+        GetX(58), GetY(0), 0.0f, //8
+        GetX(58), GetY(80), 0.0f, //9
 
     };
 
