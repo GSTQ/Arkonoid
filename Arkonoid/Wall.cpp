@@ -9,27 +9,9 @@
 #include "iostream"
 #include <GLFW/glfw3.h>
 
-
 using namespace std;
 
-Wall::Wall()
-{
-
-}
-
-float GetX(int cell)
-{
-    int maxCell = 60;
-    return -1 + cell * 2.0f / maxCell;
-}
-
-float GetY(int cell)
-{
-    int maxCell = 80;
-    return -1 + cell * 2.0f / maxCell;
-}
-
-Wall::Wall(GLFWwindow* window)
+Wall::Wall(GLFWwindow* window) : GameObject(window)
 {
     float vertices[] = {
         // Positions
@@ -63,7 +45,7 @@ Wall::Wall(GLFWwindow* window)
 
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 
-    cout << "Wall vrtices size=" << sizeof(vertices) << endl;
+    cout << "Wall vertices size=" << sizeof(vertices) << endl;
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
