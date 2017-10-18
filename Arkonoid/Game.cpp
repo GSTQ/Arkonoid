@@ -7,12 +7,13 @@
 #include "Raket.h"
 #include "Wall.h"
 
+
 // Window dimensions
 const GLuint WIDTH = 600, HEIGHT = 800;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-Raket _raket;
+Raket* _raket;
 
 GLFWwindow* initWindow();
 
@@ -20,7 +21,7 @@ int main()
 {
     std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
     GLFWwindow* window = initWindow();
-    _raket = Raket(window);
+    _raket = &Raket(window);
     Wall wall = Wall(window);
 
     while (!glfwWindowShouldClose(window))
@@ -31,12 +32,12 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         wall.Draw();
-        _raket.Draw();
+        (*_raket).Draw();
 
         glfwSwapBuffers(window);
     }
 
-    _raket.Destroy();
+    (*_raket).Destroy();
     wall.Destroy();
     glfwTerminate();
 
@@ -54,11 +55,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
     if (key == GLFW_KEY_RIGHT)
     {
-        _raket.MoveRight();
+        (*_raket).MoveRight();
     }
     if (key == GLFW_KEY_LEFT)
     {
-        _raket.MoveLeft();
+        (*_raket).MoveLeft();
     }
 }
 

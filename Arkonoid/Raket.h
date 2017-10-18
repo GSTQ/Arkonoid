@@ -5,19 +5,17 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "Shader.h"
+#include "GameObject.h"
 
-class Raket
+class Raket : public GameObject
 {
     public:
-        Raket();
         Raket(GLFWwindow* window);
         void MoveLeft();
         void MoveRight();
-        void Draw();
-        void Destroy();
+        virtual void Draw();
+        virtual void Destroy();
     private:
-        float GetX(int cell);
-        float GetY(int cell);
         GLuint VBO, VAO, EBO;
         GLfloat* _vertices;
         Shader _shader;

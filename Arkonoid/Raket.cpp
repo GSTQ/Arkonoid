@@ -9,28 +9,10 @@
 #include "iostream"
 #include <GLFW/glfw3.h>
 
-
 using namespace std;
 
-Raket::Raket()
-{
 
-}
-
-float Raket::GetX(int cell)
-{
-    int maxCell = 60;
-    return -1 + cell * 2.0f / maxCell;
-}
-
-float Raket::GetY(int cell)
-{
-    int maxCell = 80;
-    return -1 + cell * 2.0f / maxCell;
-}
-
-
-Raket::Raket(GLFWwindow* window)
+Raket::Raket(GLFWwindow* window) : GameObject(window)
 {
     int verticesCount = 12;
 
@@ -96,16 +78,18 @@ void Raket::Destroy()
 
 void Raket::MoveLeft()
 {
-    if (_position.x - 7 * 2.0f / 80.0f > GetX(2))
+    float step = 2.0f / (_width / 10.0f);
+    if (_position.x - 5 * step > GetX(2))
     {
-        _position.x -= 2.0f / 80.0f;
+        _position.x -= step;
     }
 }
 
 void Raket::MoveRight()
 {
-    if (_position.x  + 7 * 2.0f / 80.0f < GetX(58))
+    float step = 2.0f / (_width / 10.0f);
+    if (_position.x  + 5 * step < GetX(58))
     {
-        _position.x += 2.0f / 80.0f;
+        _position.x += step;
     }
 }

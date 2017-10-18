@@ -4,14 +4,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "Shader.h"
+#include "GameObject.h"
 
-class Wall
+class Wall : public GameObject
 {
 public:
-    Wall();
     Wall(GLFWwindow* window);
-    void Draw();
-    void Destroy();
+    virtual void Draw();
+    virtual void Destroy();
 private:
     GLuint _vbo, _vao, _ebo;
     Shader _shader;
