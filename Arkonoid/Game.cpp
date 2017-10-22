@@ -21,9 +21,9 @@ int main()
 {
     std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
     GLFWwindow* window = initWindow();
-    _raket = &Raket(window);
+    _raket = new Raket(window);
     Wall wall = Wall(window);
-    Ball ball = Ball(window);
+    Ball ball = Ball(window, _raket);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -35,13 +35,13 @@ int main()
 
         wall.Draw();
         (ball).Draw();
-        (*_raket).Draw();
+        _raket -> Draw();
 
         glfwSwapBuffers(window);
     }
 
-    (ball).Destroy();
-    (*_raket).Destroy();
+    ball.Destroy();
+    _raket->Destroy();
     wall.Destroy();
     glfwTerminate();
 

@@ -15,11 +15,13 @@ class Raket : public GameObject
         void MoveRight();
         virtual void Draw();
         virtual void Destroy();
+        int Left, Top;
     private:
+        float _step;
+        glm::vec3 _position;
         GLuint VBO, VAO, EBO;
         GLfloat* _vertices;
         Shader _shader;
-        glm::vec3 _position;
 };
 
 #endif

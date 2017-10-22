@@ -1,20 +1,27 @@
 #include "Ball.h"
 #include "Shader.h"
+#include "Raket.h"
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <GLFW/glfw3.h>
 
-Ball::Ball(GLFWwindow* window) : GameObject(window)
+float _step = 0.0f;
+float _x = 0;
+float _y = 0;
+
+Ball::Ball(GLFWwindow* window, Raket* raket) : GameObject(window)
 {
+    _raket = raket;
+
     int verticesCount = 12;
 
     _vertices = new GLfloat[verticesCount]{
         // Positions
         GetX(31),  GetY(8), 0.0f, //1
-        GetX(31),  GetY(6),  0.0f, //2
-        GetX(29),  GetY(6),  0.0f, //3
+        GetX(31),  GetY(6), 0.0f, //2
+        GetX(29),  GetY(6), 0.0f, //3
         GetX(29),  GetY(8), 0.0f, //0
     };
 
@@ -42,6 +49,10 @@ Ball::Ball(GLFWwindow* window) : GameObject(window)
 
     _shader = Shader("vertex.glsl", "fragment.glsl");
     _position = glm::vec3(0.0f, 0.0f, 0.0f);
+    float cellHeight = 2.0f / (_height / 10.0f);
+    _step = cellHeight / 100.0f;
+    _x = 0;
+    _y = _step;
 }
 
 void Ball::Draw()
@@ -60,6 +71,25 @@ void Ball::Draw()
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
+    if (_position.y + _y >= GetY(110))
+    {
+        _y = -1 * _y;
+    }
+    else if (_position.y + _y <= GetY(37) && _position.x >= GetX(_raket->Left) && _position.x <= GetX(_raket->Left + 10))
+    {
+        _y = -1 * _y;
+        _x = (_position.x - GetX((_raket->Left + 5))) / 1000.0f;
+    }
+    else if (_position.x + _x > GetX(58) || _position.x + _x < GetX(2))
+    {
+        _x = -1 * _x;
+    }
+    else
+    {
+        _position.y += _y;
+        _position.x += _x;
+    }
 }
 
 void Ball::Destroy()

@@ -14,7 +14,12 @@ using namespace std;
 
 Raket::Raket(GLFWwindow* window) : GameObject(window)
 {
+    _step = 2.0f / (_width / 10.0f);
+
     int verticesCount = 12;
+
+    Left = 25;
+    Top = 4;
 
     _vertices = new GLfloat[verticesCount]{
         // Positions
@@ -78,18 +83,18 @@ void Raket::Destroy()
 
 void Raket::MoveLeft()
 {
-    float step = 2.0f / (_width / 10.0f);
-    if (_position.x - 5 * step > GetX(2))
+    if (Left > 2)
     {
-        _position.x -= step;
+        Left -= 1;
+        _position.x -=  _step;
     }
 }
 
 void Raket::MoveRight()
 {
-    float step = 2.0f / (_width / 10.0f);
-    if (_position.x  + 5 * step < GetX(58))
+    if (Left + 10 < 58)
     {
-        _position.x += step;
+        Left += 1;
+        _position.x +=  _step;
     }
 }
