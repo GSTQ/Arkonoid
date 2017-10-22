@@ -6,7 +6,7 @@
 #include "Shader.h"
 #include "Raket.h"
 #include "Wall.h"
-
+#include "Ball.h"
 
 // Window dimensions
 const GLuint WIDTH = 600, HEIGHT = 800;
@@ -21,23 +21,27 @@ int main()
 {
     std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
     GLFWwindow* window = initWindow();
-    _raket = &Raket(window);
+    _raket = new Raket(window);
     Wall wall = Wall(window);
+    Ball ball = Ball(window, _raket);
 
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
 
+
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         wall.Draw();
-        (*_raket).Draw();
+        (ball).Draw();
+        _raket -> Draw();
 
         glfwSwapBuffers(window);
     }
 
-    (*_raket).Destroy();
+    ball.Destroy();
+    _raket->Destroy();
     wall.Destroy();
     glfwTerminate();
 

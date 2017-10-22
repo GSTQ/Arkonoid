@@ -1,32 +1,28 @@
-#define GLEW_STATIC
-
-#include "Raket.h"
+#include "Ball.h"
 #include "Shader.h"
+#include "Raket.h"
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "iostream"
 #include <GLFW/glfw3.h>
 
-using namespace std;
+float _step = 0.0f;
+float _x = 0;
+float _y = 0;
 
-
-Raket::Raket(GLFWwindow* window) : GameObject(window)
+Ball::Ball(GLFWwindow* window, Raket* raket) : GameObject(window)
 {
-    _step = 2.0f / (_width / 10.0f);
+    _raket = raket;
 
     int verticesCount = 12;
 
-    Left = 25;
-    Top = 4;
-
     _vertices = new GLfloat[verticesCount]{
         // Positions
-        GetX(35),  GetY(4), 0.0f, //1
-        GetX(35),  GetY(2),  0.0f, //2
-        GetX(25),  GetY(2),  0.0f, //3
-        GetX(25),  GetY(4), 0.0f, //0
+        GetX(31),  GetY(8), 0.0f, //1
+        GetX(31),  GetY(6), 0.0f, //2
+        GetX(29),  GetY(6), 0.0f, //3
+        GetX(29),  GetY(8), 0.0f, //0
     };
 
     GLuint indices[] = {
@@ -42,7 +38,6 @@ Raket::Raket(GLFWwindow* window) : GameObject(window)
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-    cout << "Raket vertices size=" << sizeof(_vertices) * verticesCount << endl;
     glBufferData(GL_ARRAY_BUFFER, sizeof(_vertices) * verticesCount, _vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -54,9 +49,13 @@ Raket::Raket(GLFWwindow* window) : GameObject(window)
 
     _shader = Shader("vertex.glsl", "fragment.glsl");
     _position = glm::vec3(0.0f, 0.0f, 0.0f);
+    float cellHeight = 2.0f / (_height / 10.0f);
+    _step = cellHeight / 100.0f;
+    _x = 0;
+    _y = _step;
 }
 
-void Raket::Draw()
+void Ball::Draw()
 {
     _shader.Use();
 
@@ -67,34 +66,35 @@ void Raket::Draw()
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
     GLint colorLocation = glGetUniformLocation(_shader.Program, "ourColor");
-    glUniform4f(colorLocation, 1.0f, 0.5f, 0.5f, 1.0f);
+    glUniform4f(colorLocation, 0.6f, 0.7f, 0.8f, 1.0f);
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+
+    if (_position.y + _y >= GetY(110))
+    {
+        _y = -1 * _y;
+    }
+    else if (_position.y + _y <= GetY(37) && _position.x >= GetX(_raket->Left) && _position.x <= GetX(_raket->Left + 10))
+    {
+        _y = -1 * _y;
+        _x = (_position.x - GetX((_raket->Left + 5))) / 1000.0f;
+    }
+    else if (_position.x + _x > GetX(58) || _position.x + _x < GetX(2))
+    {
+        _x = -1 * _x;
+    }
+    else
+    {
+        _position.y += _y;
+        _position.x += _x;
+    }
 }
 
-void Raket::Destroy()
+void Ball::Destroy()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-}
-
-void Raket::MoveLeft()
-{
-    if (Left > 2)
-    {
-        Left -= 1;
-        _position.x -=  _step;
-    }
-}
-
-void Raket::MoveRight()
-{
-    if (Left + 10 < 58)
-    {
-        Left += 1;
-        _position.x +=  _step;
-    }
 }
