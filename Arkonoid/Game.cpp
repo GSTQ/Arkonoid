@@ -22,8 +22,8 @@ int main()
     std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
     GLFWwindow* window = initWindow();
     _raket = new Raket(window);
-    Wall wall = Wall(window);
-    Ball ball = Ball(window, _raket);
+    Wall* wall = new Wall(window);
+    Ball* ball = new Ball(window, _raket);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -33,16 +33,16 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        wall.Draw();
-        (ball).Draw();
+        wall -> Draw();
+        ball -> Draw();
         _raket -> Draw();
 
         glfwSwapBuffers(window);
     }
 
-    ball.Destroy();
+    ball ->Destroy();
     _raket->Destroy();
-    wall.Destroy();
+    wall -> Destroy();
     glfwTerminate();
 
 
@@ -59,11 +59,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
     if (key == GLFW_KEY_RIGHT)
     {
-        (*_raket).MoveRight();
+        _raket -> MoveRight();
     }
     if (key == GLFW_KEY_LEFT)
     {
-        (*_raket).MoveLeft();
+        _raket -> MoveLeft();
     }
 }
 

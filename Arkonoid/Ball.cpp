@@ -50,7 +50,7 @@ Ball::Ball(GLFWwindow* window, Raket* raket) : GameObject(window)
     _shader = Shader("vertex.glsl", "fragment.glsl");
     _position = glm::vec3(0.0f, 0.0f, 0.0f);
     float cellHeight = 2.0f / (_height / 10.0f);
-    _step = cellHeight / 100.0f;
+    _step = cellHeight / 10.0f;
     _x = 0;
     _y = _step;
 }
@@ -79,7 +79,7 @@ void Ball::Draw()
     else if (_position.y + _y <= GetY(37) && _position.x >= GetX(_raket->Left) && _position.x <= GetX(_raket->Left + 10))
     {
         _y = -1 * _y;
-        _x = (_position.x - GetX((_raket->Left + 5))) / 1000.0f;
+        _x = (_position.x - GetX((_raket->Left + 5))) / 100.0f;
     }
     else if (_position.x + _x > GetX(58) || _position.x + _x < GetX(2))
     {
