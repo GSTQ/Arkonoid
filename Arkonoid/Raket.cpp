@@ -18,6 +18,9 @@ Raket::Raket(GLFWwindow* window) : GameObject(window)
 
     int verticesCount = 12;
 
+    IsMoveLeft = false;
+    IsMoveRight = false;
+
     Left = 25;
     Top = 4;
 
@@ -58,6 +61,17 @@ Raket::Raket(GLFWwindow* window) : GameObject(window)
 
 void Raket::Draw()
 {
+    if (IsMoveLeft && Left > 2)
+    {
+        Left -= 0.1;
+        _position.x -= _step / 10.0;
+    }
+    else if (IsMoveRight && Left + 10 < 58)
+    {
+        Left += 0.1;
+        _position.x += _step / 10.0;
+    }
+
     _shader.Use();
 
     glm::mat4 transform;
@@ -79,22 +93,4 @@ void Raket::Destroy()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-}
-
-void Raket::MoveLeft()
-{
-    if (Left > 2)
-    {
-        Left -= 1;
-        _position.x -=  _step;
-    }
-}
-
-void Raket::MoveRight()
-{
-    if (Left + 10 < 58)
-    {
-        Left += 1;
-        _position.x +=  _step;
-    }
 }
