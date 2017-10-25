@@ -13,7 +13,7 @@ const GLuint WIDTH = 600, HEIGHT = 800;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
-Raket* _raket;
+Raket* raket;
 
 GLFWwindow* initWindow();
 
@@ -21,9 +21,9 @@ int main()
 {
     std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
     GLFWwindow* window = initWindow();
-    _raket = new Raket(window);
+    raket = new Raket(window);
     Wall* wall = new Wall(window);
-    Ball* ball = new Ball(window, _raket);
+    Ball* ball = new Ball(window, raket);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -33,16 +33,16 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        wall -> Draw();
-        ball -> Draw();
-        _raket -> Draw();
+        wall->Draw();
+        ball->Draw();
+        raket->Draw();
 
         glfwSwapBuffers(window);
     }
 
-    ball ->Destroy();
-    _raket->Destroy();
-    wall -> Destroy();
+    ball->Destroy();
+    raket->Destroy();
+    wall->Destroy();
     glfwTerminate();
 
 
@@ -59,11 +59,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     }
     if (key == GLFW_KEY_RIGHT)
     {
-        _raket -> MoveRight();
+        if (action == GLFW_PRESS)
+        {
+            raket->IsMoveRight = true;
+            raket->IsMoveLeft = false;
+        }
+        if (action == GLFW_RELEASE)
+        {
+            raket->IsMoveRight = false;
+            raket->IsMoveLeft = false;
+        }
     }
     if (key == GLFW_KEY_LEFT)
     {
-        _raket -> MoveLeft();
+        if (action == GLFW_PRESS)
+        {
+            raket->IsMoveLeft = true;
+            raket->IsMoveRight = false;
+        }
+        if (action == GLFW_RELEASE)
+        {
+            raket->IsMoveRight = false;
+            raket->IsMoveLeft = false;
+        }
     }
 }
 

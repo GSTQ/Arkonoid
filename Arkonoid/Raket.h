@@ -11,11 +11,10 @@ class Raket : public GameObject
 {
     public:
         Raket(GLFWwindow* window);
-        void MoveLeft();
-        void MoveRight();
         virtual void Draw();
         virtual void Destroy();
-        int Left, Top;
+        float Left, Top;
+        bool IsMoveLeft, IsMoveRight;
     private:
         float _step;
         glm::vec3 _position;
